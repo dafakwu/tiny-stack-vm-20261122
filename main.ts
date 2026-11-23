@@ -2,8 +2,8 @@ const {readdir,readFile,mkdir,writeFile}=require('node:fs/promises');
 const {join}=require('node:path');
 
 async function main(){
-const rootIn=process.argv[2]||'/input', rootOut=process.argv[3]||'/output';
-for(const id of await readdir(rootIn)){
+const rootIn=process.env.MAKEFUN_INPUT_DIR||process.argv[2]||'/input', rootOut=process.env.MAKEFUN_OUTPUT_DIR||process.argv[3]||'/output';
+for(const id of (await readdir(rootIn)).sort()){
   const dir=join(rootIn,id);
   let p:Uint8Array, input:Uint8Array;
   try { [p,input]=await Promise.all([readFile(join(dir,'program.bin')),readFile(join(dir,'input.bin'))]); } catch { continue; }
